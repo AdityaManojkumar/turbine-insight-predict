@@ -77,14 +77,12 @@ function TurbineModel({ faultStatus, rotationSpeed }: TurbineProps) {
   );
 }
 
-function LoadingFallback() {
+function Loading3D() {
   return (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-muted-foreground">Loading 3D Turbine...</p>
-      </div>
-    </div>
+    <mesh>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshBasicMaterial wireframe color="#0ea5e9" />
+    </mesh>
   );
 }
 
@@ -99,7 +97,7 @@ export default function WindTurbine3D({ faultStatus, rotationSpeed, className }:
     <div className={`relative h-full w-full ${className}`}>
       <Canvas shadows>
         <PerspectiveCamera makeDefault position={[8, 4, 8]} fov={60} />
-        <Suspense fallback={<LoadingFallback />}>
+        <Suspense fallback={<Loading3D />}>
           <Environment preset="sunset" />
           <ambientLight intensity={0.5} />
           <directionalLight

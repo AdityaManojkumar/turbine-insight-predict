@@ -36,9 +36,15 @@ function TurbineModel({ faultStatus, rotationSpeed }: TurbineProps) {
       </mesh>
 
       {/* Nacelle */}
-      <mesh position={[0, 2, 0]}>
+      <mesh position={[0, 2, 0]} rotation={[0, 0, 0]}>
         <boxGeometry args={[2.5, 1, 1]} />
         <meshStandardMaterial color={getFaultColor()} />
+      </mesh>
+
+      {/* Rotor Shaft */}
+      <mesh position={[1.25, 2, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.15, 0.15, 0.8, 8]} />
+        <meshStandardMaterial color="#374151" />
       </mesh>
 
       {/* Hub */}

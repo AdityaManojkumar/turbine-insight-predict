@@ -1,15 +1,26 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Activity, Wind, Zap, BarChart3 } from 'lucide-react';
-import WindTurbine3D from '@/components/WindTurbine3D';
+import { Zap, Wind, Gauge, TrendingUp, Activity, Upload, Brain, Clock, BarChart3 } from 'lucide-react';
 import ParameterControls, { TurbineParameters } from '@/components/ParameterControls';
 import PredictionPanel from '@/components/PredictionPanel';
-import { turbineApi, PredictionResponse } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
+import Enhanced3DTurbine from '@/components/Enhanced3DTurbine';
+import RealTimeDashboard from '@/components/RealTimeDashboard';
+import DataUploader from '@/components/DataUploader';
+import ExplainableAI from '@/components/ExplainableAI';
+import { turbineApi } from '@/services/api';
+import { toast } from '@/hooks/use-toast';
+
+interface PredictionResult {
+  prediction: 'normal' | 'warning' | 'fault';
+  probability: number;
+  confidence: number;
+  affectedComponents: string[];
+  shapValues?: { [key: string]: number };
+  timestamp: string;
+}
 
 const defaultParameters: TurbineParameters = {
   // Electrical Parameters
@@ -54,16 +65,15 @@ const defaultParameters: TurbineParameters = {
 
 export default function Dashboard() {
   const [parameters, setParameters] = useState<TurbineParameters>(defaultParameters);
-  const [prediction, setPrediction] = useState<PredictionResponse | null>(null);
+  const [prediction, setPrediction] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
-  const handleParameterChange = useCallback((key: keyof TurbineParameters, value: number | string) => {
+  const handleParameterChange = (key: keyof TurbineParameters, value: number | string) => {
     setParameters(prev => ({
       ...prev,
       [key]: value
     }));
-  }, []);
+  };
 
   const handlePredict = async () => {
     setIsLoading(true);
@@ -140,9 +150,11 @@ export default function Dashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="h-[520px] p-6">
-                <WindTurbine3D 
+                <Enhanced3DTurbine 
                   faultStatus={getFaultStatus()}
                   rotationSpeed={getRotationSpeed()}
+                  affectedComponents={prediction?.affectedComponents || []}
+                  shapValues={prediction?.shapValues}
                   className="rounded-lg overflow-hidden"
                 />
               </CardContent>
@@ -220,12 +232,12 @@ export default function Dashboard() {
               </TabsContent>
               
               <TabsContent value="parameters" className="mt-6">
-                <ScrollArea className="h-[700px] pr-4">
+                <div className="h-[700px] overflow-y-auto pr-4">
                   <ParameterControls
                     parameters={parameters}
                     onParameterChange={handleParameterChange}
                   />
-                </ScrollArea>
+                </div>
               </TabsContent>
             </Tabs>
           </div>

@@ -49,21 +49,21 @@ function TurbineModel({ faultStatus, rotationSpeed }: TurbineProps) {
 
       {/* Blades */}
       <group ref={bladesRef} position={[1.25, 2, 0]}>
-        {/* Blade 1 */}
-        <mesh position={[1.5, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <boxGeometry args={[3, 0.2, 0.05]} />
+        {/* Blade 1 - pointing up */}
+        <mesh position={[0, 1.5, 0]} rotation={[0, 0, 0]}>
+          <boxGeometry args={[0.2, 3, 0.05]} />
           <meshStandardMaterial color="#f3f4f6" />
         </mesh>
         
-        {/* Blade 2 */}
-        <mesh position={[-0.75, 1.3, 0]} rotation={[0, 0, Math.PI / 6]}>
-          <boxGeometry args={[3, 0.2, 0.05]} />
+        {/* Blade 2 - 120 degrees clockwise */}
+        <mesh position={[-1.299, -0.75, 0]} rotation={[0, 0, (2 * Math.PI) / 3]}>
+          <boxGeometry args={[0.2, 3, 0.05]} />
           <meshStandardMaterial color="#f3f4f6" />
         </mesh>
         
-        {/* Blade 3 */}
-        <mesh position={[-0.75, -1.3, 0]} rotation={[0, 0, -Math.PI / 6]}>
-          <boxGeometry args={[3, 0.2, 0.05]} />
+        {/* Blade 3 - 240 degrees clockwise */}
+        <mesh position={[1.299, -0.75, 0]} rotation={[0, 0, -(2 * Math.PI) / 3]}>
+          <boxGeometry args={[0.2, 3, 0.05]} />
           <meshStandardMaterial color="#f3f4f6" />
         </mesh>
       </group>

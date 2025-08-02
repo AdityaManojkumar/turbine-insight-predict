@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Activity, Wind, Zap, Settings, BarChart3 } from 'lucide-react';
+import { Activity, Wind, Zap, BarChart3 } from 'lucide-react';
 import WindTurbine3D from '@/components/WindTurbine3D';
 import ParameterControls, { TurbineParameters } from '@/components/ParameterControls';
 import PredictionPanel from '@/components/PredictionPanel';
@@ -117,16 +117,10 @@ export default function Dashboard() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Badge variant="outline" className="gap-2">
-                <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
-                System Online
-              </Badge>
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-            </div>
+            <Badge variant="outline" className="gap-2">
+              <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+              System Online
+            </Badge>
           </div>
         </div>
       </header>
